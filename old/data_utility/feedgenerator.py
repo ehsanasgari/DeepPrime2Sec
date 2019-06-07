@@ -1,9 +1,5 @@
-import os
-
 import numpy as np
-from keras.callbacks import ModelCheckpoint, EarlyStopping
-from data_utility.file_utility import FileUtility
-from data_utility.labeling_utility import LabelingData
+from old.data_utility import FileUtility
 import tqdm
 from sklearn.preprocessing import normalize
 

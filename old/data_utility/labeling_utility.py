@@ -8,8 +8,8 @@ from keras.preprocessing.sequence import pad_sequences
 from keras.utils.np_utils import to_categorical
 from gensim.models import KeyedVectors
 from keras.layers import Embedding
-from data_utility.file_utility import FileUtility
-from data_utility.list_set_util import argsort
+from old.data_utility import FileUtility
+from old.data_utility import argsort
 
 np.random.seed(7)
 
