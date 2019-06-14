@@ -8,7 +8,8 @@ from keras.models import Model
 from keras.layers import Masking, Lambda, Dense, LSTM, CuDNNLSTM, Reshape, Flatten, Activation, RepeatVector, Permute, Bidirectional, Embedding, Input, Dropout, concatenate, Masking, Conv1D, \
     multiply, BatchNormalization, merge
 from keras.layers.wrappers import TimeDistributed
-from layers import ChainCRF, slice_tensor
+from layers.crf import ChainCRF
+from layers.utility import slice_tensor
 from keras import optimizers
 from keras import backend as K
 from keras import initializers, regularizers, constraints

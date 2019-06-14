@@ -7,10 +7,13 @@ from data_utility.feedgenerator import train_batch_generator_408, validation_bat
 
 
 
-def training_loop( gpu='1', model, **kwargs):
+def training_loop( model, gpu='1', **kwargs):
 
     # which GPU to use
     os.environ["CUDA_VISIBLE_DEVICES"] = gpu
+
+    run_parameters = kwargs['run_parameters']
+    model_paramters = kwargs['model_paramters']
 
     # read files
     train_file = '../DeepSeq2Sec/data/s8_all_features/train.txt'
