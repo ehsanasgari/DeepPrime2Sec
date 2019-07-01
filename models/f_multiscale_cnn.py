@@ -9,7 +9,17 @@ from keras import optimizers
 from keras import backend as K
 from keras import initializers, regularizers, constraints
 
-def model_f_multiscale_cnn(n_classes, convs=[3,5,7], dense_size=200, drop_lstm=0.5, features_to_use=['onehot','sequence_profile'], use_CRF=False, filter_size=256):
+def multiscaleCNN(input_layer, gating_layer, filter_size, convs):
+    z_t = gating_layer(input_layer)
+    conclayers = []
+    for idx, conv in enumerate(convs):
+        conclayers.append(Conv1D(filter_size, conv, activation="relu", padding="same",
+                   kernel_regularizer=regularizers.l2(0.00005))(input_layer))
+    conc = concatenate(conclayers)
+    output = Lambda(lambda a: z_t*a[0] + (1-z_t)*a[1])([input_layer, conc])
+    return output
+
+def model_f_multiscale_cnn(n_classes, convs=[7,9,11], dropout_rate=0.5, features_to_use=['onehot','sequence_profile'], use_CRF=False, filter_size=100):
     '''
     :param max_length:
     :param n_classes:
@@ -24,8 +34,9 @@ def model_f_multiscale_cnn(n_classes, convs=[3,5,7], dense_size=200, drop_lstm=0
     prof = slice_tensor(2,87,108,name='sequenceprofile')(visible)
     elmo = slice_tensor(2,108,408,name='elmo')(visible)
 
-    lstm_size = 1000
     input_dict={'sequence_profile':prof, 'onehot':onehot,'embedding':embedding,'elmo':elmo,'biophysical':biophysical}
+
+    gating = Dense(len(convs)*filter_size, activation='sigmoid')
 
     # create input
     features=[]
@@ -43,42 +54,21 @@ def model_f_multiscale_cnn(n_classes, convs=[3,5,7], dense_size=200, drop_lstm=0
     # performing the conlvolutions
     for idx,conv in enumerate(convs):
         idx=str(idx+1)
-        conclayers.append(BatchNormalization(name='batch_norm_conv'+idx) (Conv1D(filter_size, conv, activation="relu", padding="same", name='conv'+idx,
-                   kernel_regularizer=regularizers.l2(0.00005))(input)))
+        conclayers.append(Conv1D(filter_size, conv, activation="relu", padding="same", name='conv'+idx,
+                   kernel_regularizer=regularizers.l2(0.00005))(input))
 
     conc = concatenate(conclayers)
 
-    sec_conv = []
-    # performing the conlvolutions
-    for idx,conv in enumerate(convs):
-        idx=str(idx+1)
-        sec_conv.append(BatchNormalization(name='batch_norm_conv_2nd_'+idx) (Conv1D(filter_size, conv, activation="relu", padding="same", name='conv_2nd_'+idx,
-                   kernel_regularizer=regularizers.l2(0.00005))(conc)))
+    out_level1 = multiscaleCNN( conc, gating, filter_size, convs)
+    out_level1 = Dropout(dropout_rate)(out_level1)
 
-    sec_conc = concatenate(sec_conv)
+    out_level2 = multiscaleCNN( out_level1, gating, filter_size, convs)
+    out_level2 = Dropout(dropout_rate)(out_level2)
 
-    z_t = Dense(1, activation='sigmoid')(conc)
+    out_level3 = multiscaleCNN( out_level2, gating, filter_size, convs)
+    out_level3 = Dropout(dropout_rate)(out_level3)
 
-    #conv_input =  conc +  sec_conc
-    ff = Lambda(lambda a: z_t*a[0] + (1-z_t)*a[1])([conc, sec_conc])
-
-
-    third_conv = []
-    # performing the conlvolutions
-    for idx,conv in enumerate(convs):
-        idx=str(idx+1)
-        third_conv.append(BatchNormalization(name='batch_norm_conv_3nd_'+idx) (Conv1D(filter_size, conv, activation="relu", padding="same", name='conv_3nd_'+idx,
-                   kernel_regularizer=regularizers.l2(0.00005))(ff)))
-    third_conc = concatenate(third_conv)
-
-    z_t_2 = Dense(1, activation='sigmoid')(ff)
-
-    #conv_input =  conc +  sec_conc
-    ff_2 = Lambda(lambda a: z_t_2*a[0] + (1-z_t_2)*a[1])([ff, third_conc])
-
-
-    drop1 = Dropout(0.5)(ff_2)
-    dense_out = Dense(100, activation='relu')(drop1)
+    dense_out = Dense(len(convs)*filter_size, activation='relu')(out_level3)
 
     if use_CRF:
         timedist = TimeDistributed(Dense(n_classes, name='dense'))(dense_out)
@@ -95,6 +85,4 @@ def model_f_multiscale_cnn(n_classes, convs=[3,5,7], dense_size=200, drop_lstm=0
         adam=optimizers.Adam(lr=0.002)
         model.compile(loss='categorical_crossentropy', optimizer=adam, weighted_metrics= ['accuracy'], sample_weight_mode='temporal')
     print(model.summary())
-    return model, 'model_f_multiscale_cnn#'+'#'.join(features_to_use)+'@conv'+'_'.join([str(c) for c in convs])+'@dense_'+str(dense_size)+'@lstm'+str(lstm_size)+'@droplstm'+str(drop_lstm)+'@filtersize_'+str(filter_size)
-
-
+    return model, 'model_f_multiscale_cnn#'+'#'.join(features_to_use)+'@conv'+'_'.join([str(c) for c in convs])+'@filtersize_'+str(filter_size)
