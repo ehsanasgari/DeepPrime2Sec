@@ -4,7 +4,7 @@ from __future__ import absolute_import
 
 """
 Author: Philipp Gross, https://github.com/phipleg/keras/blob/crf/keras/layers/crf.py
-Modified by Ehsaneddin Asgari
+        ==== We performed slight modifications
 """
 
 from keras import backend as K
