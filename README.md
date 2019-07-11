@@ -4,6 +4,7 @@
 
 [Installation](#Installation)
 
+<hr/>
 
 <a name="Summary"/>
 # Summary
@@ -27,8 +28,9 @@ Through error analysis on the best performing model, we showed that the misclass
 DeepPrime2Sec and the used datasets are available here under the Apache 2 license.
 
 
-<a name="Installation"/>
+
 ## Installation
+<a name="Installation"/>
 
 ## Conda environment set up
 
