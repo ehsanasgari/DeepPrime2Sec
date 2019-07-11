@@ -18,7 +18,7 @@ Utilizing the CNN-BiLSTM network, we achieved an accuracy of 69.9% and 70.4%  us
 Through error analysis on the best performing model, we showed that the misclassification is significantly more common at positions that undergo secondary structure transitions, which is most likely due to the inaccurate assignments of the secondary structure at the boundary regions. Notably, when ignoring amino acids at secondary structure transitions in the evaluation, the accuracy increases to 90.3%. Furthermore, the best performing model mostly mistook similar structures for one another, indicating that the deep learning model inferred high-level information on the secondary structure.
 
 
-DeepPrime2Sec and the used datasets are available here under the license Apache 2.
+DeepPrime2Sec and the used datasets are available here under the Apache 2 license.
 
 
 ## Conda environment set up
