@@ -1,14 +1,12 @@
 # DeepPrime2Sec
 
+[Summary](#Summary)
 
-[Headers](#headers)
-[Emphasis](#emphasis)
-...snip...
-<a name="headers"/>
-## Headers
+[Installation](#Installation)
 
 
-## Summary
+<a name="Summary"/>
+# Summary
 
 DeepPrime2Seq is developed deep learning-based prediction of protein secondary structure from the protein primary sequence.
 It facilitate the function of different features in this task, including one-hot vectors, biophysical features,
@@ -28,6 +26,9 @@ Through error analysis on the best performing model, we showed that the misclass
 
 DeepPrime2Sec and the used datasets are available here under the Apache 2 license.
 
+
+<a name="Installation"/>
+## Installation
 
 ## Conda environment set up
 
