@@ -53,6 +53,7 @@ python deepprime2sec.py --config sample_configs/model_a.yaml
 
 
 <hr/>
+
 ## Features to use
 
 We experiment on five sets of protein features to understand what are essential features for the task of protein secondary structure prediction. Although in 1999, PSSM was reported as an important feature to the secondary structure prediction (Jones et al, 1999),
