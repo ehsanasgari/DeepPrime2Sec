@@ -52,8 +52,7 @@ python deepprime2sec.py --config sample_configs/model_a.yaml
 ### Sample output
 
 
-
-
+<hr/>
 ## Features to use
 
 We experiment on five sets of protein features to understand what are essential features for the task of protein secondary structure prediction. Although in 1999, PSSM was reported as an important feature to the secondary structure prediction (Jones et al, 1999),
@@ -67,6 +66,8 @@ this was still unclear whether recently introduced distributed representations c
 <li> <b>Biophysical features (length: 16)</b> For each amino acid we create a normalized vector of their biophysical properties, e.g., flexibility,  instability,  surface accessibility,  kd-hydrophobicity, hydrophilicity, and etc.</li>
 </ul>
 
+
+<hr/>
 
 
 ## How to configure input for different deep learning models
