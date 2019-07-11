@@ -1,7 +1,6 @@
 import numpy as np
+
 from utility.file_utility import FileUtility
-import tqdm
-from sklearn.preprocessing import normalize
 
 
 def train_batch_generator_408(batch_size=64):
@@ -11,10 +10,10 @@ def train_batch_generator_408(batch_size=64):
     '''
     start_idx = 0
     train_lengths = [int(j) for j in FileUtility.load_list(
-        'datasets/s8_all_features/train_length.txt')]
-    X_train = np.load('datasets/s8_all_features/X_train_408.npy')
+        'datasets/train_length.txt')]
+    X_train = np.load('datasets/X_train_408.npy')
     Y_train = np.array(
-        np.load('datasets/s8_all_features/train_mat_Y.npy'))
+        np.load('datasets/train_mat_Y.npy'))
     while True:
         if not start_idx < len(train_lengths):
             start_idx = 0
@@ -39,10 +38,10 @@ def validation_batch_generator_408(batch_size=100):
     :return:
     '''
     test_lengths = [int(i) for i in FileUtility.load_list(
-        'datasets/s8_all_features/test_length.txt')]
-    X_test = np.load('datasets/s8_all_features/X_test_408.npy')
+        'datasets/test_length.txt')]
+    X_test = np.load('datasets/X_test_408.npy')
     Y_test = np.array(
-        np.load('datasets/s8_all_features/test_mat_Y.npy'))
+        np.load('datasets/test_mat_Y.npy'))
     start_idx = 0
     while True:
         if not start_idx < len(test_lengths):
@@ -58,4 +57,3 @@ def validation_batch_generator_408(batch_size=100):
 
         start_idx += batch_size
         yield X, Y, np.array(W)
-

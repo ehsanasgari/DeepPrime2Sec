@@ -1,23 +1,35 @@
-
+import inspect
 import os
+import sys
+
+currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+parentdir = os.path.dirname(currentdir)
+sys.path.insert(0, parentdir)
+
 from keras.callbacks import ModelCheckpoint, EarlyStopping
-from data_utility.file_utility import FileUtility
-from data_utility.labeling_utility import LabelingData
-from data_utility.feedgenerator import train_batch_generator_408, validation_batch_generator_408
+from utility.file_utility import FileUtility
+from utility.labeling_utility import LabelingData
+from utility.feed_generation_utility import train_batch_generator_408, validation_batch_generator_408
 
+# predefined models
+from models.a_cnn_bilstm import model_a_cnn_bilstm
+from models.b_cnn_bilstm_highway import model_b_cnn_bilstm_highway
+from models.c_cnn_bilstm_crf import model_c_cnn_bilstm
+from models.d_cnn_bilstm_attention import model_d_cnn_bilstm_attention
+from models.e_cnn import model_e_cnn
+from models.f_multiscale_cnn import model_f_multiscale_cnn
 
-
-def training_loop( model, gpu='1', **kwargs):
-
-    # which GPU to use
-    os.environ["CUDA_VISIBLE_DEVICES"] = gpu
-
+def training_loop(**kwargs):
     run_parameters = kwargs['run_parameters']
     model_paramters = kwargs['model_paramters']
+    model = eval(kwargs['deep_learning_model'])
+
+    # which GPU to use
+    os.environ["CUDA_VISIBLE_DEVICES"] = str(run_parameters['gpu'])
 
     # read files
-    train_file = '../DeepSeq2Sec/data/s8_all_features/train.txt'
-    test_file = '../DeepSeq2Sec/data/s8_all_features/test.txt'
+    train_file = 'datasets/train.txt'
+    test_file = 'datasets/test.txt'
     LD = LabelingData(train_file, test_file)
     train_lengths = [int(j) for j in FileUtility.load_list('/'.join(train_file.split('/')[0:-1]) + '/train_length.txt')]
     test_lengths = [int(i) for i in FileUtility.load_list('/'.join(test_file.split('/')[0:-1]) + '/test_length.txt')]
@@ -29,17 +41,18 @@ def training_loop( model, gpu='1', **kwargs):
     epochs = run_parameters['epochs']
 
     # model
-    model, params = model(LD.n_classes, model_paramters)
+    model, params = model(LD.n_classes, **model_paramters)
 
     # output directory
     FileUtility.ensure_dir('results/')
-    FileUtility.ensure_dir('results/' + run_parameters['domain_name']+ '/')
-    FileUtility.ensure_dir('results/' + run_parameters['domain_name']+ '/' + run_parameters['setting_name'] + '/')
-    FileUtility.ensure_dir('results/' + run_parameters['domain_name']+ '/' + run_parameters['setting_name'] + '/' + params + '/')
-    full_path = 'results/' + run_parameters['domain_name']+ '/' + run_parameters['setting_name'] + '/' + params + '/'
+    FileUtility.ensure_dir('results/' + run_parameters['domain_name'] + '/')
+    FileUtility.ensure_dir('results/' + run_parameters['domain_name'] + '/' + run_parameters['setting_name'] + '/')
+    FileUtility.ensure_dir(
+        'results/' + run_parameters['domain_name'] + '/' + run_parameters['setting_name'] + '/' + params + '/')
+    full_path = 'results/' + run_parameters['domain_name'] + '/' + run_parameters['setting_name'] + '/' + params + '/'
 
     # save model
-    with open(full_path+ 'config.txt', 'w') as fh:
+    with open(full_path + 'config.txt', 'w') as fh:
         model.summary(print_fn=lambda x: fh.write(x + '\n'))
 
     # check points
@@ -64,4 +77,4 @@ def training_loop( model, gpu='1', **kwargs):
                             shuffle=False, epochs=epochs, verbose=1, callbacks=callbacks_list)
 
     # save the history
-    FileUtility.save_obj(full_path+'history', h.history)
+    FileUtility.save_obj(full_path + 'history', h.history)
