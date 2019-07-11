@@ -16,12 +16,8 @@ import yaml
 
 def checkArgs(args):
     '''
-        This function checks the input arguments and returns the errors (if exist) otherwise reads the parameters
+        This function checks the input argument and returns the parameters
     '''
-    # keep all errors
-    err = "";
-    # Using the argument parser in case of -h or wrong usage the correct argument usage
-    # will be prompted
     parser = argparse.ArgumentParser()
 
 
