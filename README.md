@@ -3,10 +3,29 @@
 ## Summary
 
 
-## Installation
+## Conda environment set up
+
+In order to install the required libraries for running DeepPrime2Sec use the following conda command:
+
+```
+conda create --name deepprime2sec --file installations/env_linux.txt
+```
+
+Subsequently, you need to activate the created virtual environment before running:
+
+```
+source activate DeepPrime2Sec
+```
 
 
 ## Running example
+
+In order to run the DeepPrime2Sec, you can simply use the following command.
+Every details on different deep learning models: architecture, hyper parameter, training parameters, etc, will be provided in the yaml config file. Later in the README we have detailed how this file should be created.
+
+```
+python deepprime2sec.py --config sample_configs/model_a.yaml
+```
 
 
 ### Sample output
