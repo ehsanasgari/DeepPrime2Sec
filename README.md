@@ -2,6 +2,22 @@
 
 ## Summary
 
+DeepPrime2Seq is developed deep learning-based prediction of protein secondary structure from the protein primary sequence.
+It facilitate the function of different features in this task, including one-hot vectors, biophysical features,
+protein sequence embedding (ProtVec), deep contextualized embedding (known as ELMo), and the Position Specific Scoring Matrix (PSSM).
+
+In addition to the role of features, it allows for the evaluation of various deep learning architectures including the following models/mechanisms and
+certain combinations: Bidirectional Long Short-Term Memory (BiLSTM), convolutional neural network (CNN), highway connections,
+attention mechanism, recurrent neural random fields, and gated multi-scale CNN.
+
+
+Our results suggest that PSSM concatenated to one-hot vectors are the most important features for the task of secondary structure prediction.
+Utilizing the CNN-BiLSTM network, we achieved an accuracy of %69.9 and %70.4  using ensemble top-k models, for 8-class of protein secondary structure on the CB513 dataset, the most challenging dataset for protein secondary structure prediction.
+
+
+Through error analysis on the best performing model, we showed that the misclassification is significantly more common at positions that undergo secondary structure transitions, which is most likely due to the inaccurate assignments of the secondary structure at the boundary regions. Notably, when ignoring amino acids at secondary structure transitions in the evaluation, the accuracy increases to \%90.3. Furthermore, the best performing model mostly mistook similar structures for one another, indicating that the deep learning model inferred high-level information on the secondary structure.\\
+
+\textbf{Availability:} The developed software called DeepPrime2Sec and the used datasets are available with license Apache 2 at http://llp.berkeley.edu/DeepPrime2Sec.
 
 ## Conda environment set up
 
