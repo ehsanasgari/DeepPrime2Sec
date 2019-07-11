@@ -21,7 +21,7 @@ from keras_self_attention import SeqSelfAttention
 
 
 def model_d_cnn_bilstm_attention(n_classes, convs=[3, 5, 7], dense_size=200, lstm_size=400, dropout_rate=0.5,
-                                 features_to_use=['onehot', 'sequence_profile'], filter_size=256, lr=0.001,
+                                 features_to_use=['onehot', 'pssm'], filter_size=256, lr=0.001,
                                  use_CRF=False, attention_units=32, attention_type='additive'):
     '''
     :param n_classes:
@@ -42,11 +42,11 @@ def model_d_cnn_bilstm_attention(n_classes, convs=[3, 5, 7], dense_size=200, lst
     biophysical = slice_tensor(2, 0, 16, name='biophysicalfeatures')(visible)
     embedding = slice_tensor(2, 16, 66, name='skipgramembd')(visible)
     onehot = slice_tensor(2, 66, 87, name='onehot')(visible)
-    prof = slice_tensor(2, 87, 108, name='sequenceprofile')(visible)
+    pssm = slice_tensor(2, 87, 108, name='pssm')(visible)
     elmo = slice_tensor(2, 108, 408, name='elmo')(visible)
 
     # create input based-on selected features
-    input_dict = {'sequence_profile': prof, 'onehot': onehot, 'embedding': embedding, 'elmo': elmo,
+    input_dict = {'pssm': pssm, 'onehot': onehot, 'embedding': embedding, 'elmo': elmo,
                   'biophysical': biophysical}
     features = []
     for feature in features_to_use:

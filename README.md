@@ -36,7 +36,7 @@ Subsequently, you need to activate the created virtual environment before runnin
 source activate deepprime2sec
 ```
 
-Before running the software make sure to download the traning dataset (which was too large for git from here).
+Before running the software make sure to download the traning dataset (which was too large for git) from here.
 
 
 ## Running example
@@ -59,12 +59,24 @@ We experiment on five sets of protein features to understand what are essential 
 this was still unclear whether recently introduced distributed representations can outperform PSSM in such a task. For a systematic comparison, the features detailed as follows are used:
 
 <ul>
-<li> <b>One-hot vector representation (length: 21)</b>: vector representation indicating which amino acid exists at each specific position, where each index in the vector indicates the presence or absence of that amino acid.</li>
-<li> <b>ProtVec embedding (length: 50)</b>: representation trained using Skip-gram neural network on protein amino acid sequences (ProtVec). The only difference would be character-level training instead of n-gram based training. </li>
-<li> <b>Contextualized embedding (length: 300)</b>: we use the contextualized embedding of the amino acids trained in the course of language modeling, known as ELMo, as a new feature for the secondary structure task. Contextualized embedding is the concatenation of the hidden states of a deep bidirectional language model. The main difference between ProtVec embedding and ELMO embedding is that the ProtVec embedding for a given amino acid or amino acid k-mer is fixed and the representation would be the same in different sequences. However, the contextualized embedding, as it is clear from its name, is an embedding of word changing based on its context. We train ELMo embedding of amino acids using UniRef50 dataset in the dimension size of 300.</li>
-<li> <b>Position Specific Scoring Matrix (PSSM) features (length: 21)</b>: PSSM is amino acid substitution scores calculated on protein multiple sequence alignment of homolog sequences for each given position in the protein sequence.</li>
-<li> <b>Biophysical features (length: 16)</b> For each amino acid we create a normalized vector of their biophysical properties, e.g., flexibility,  instability,  surface accessibility,  kd-hydrophobicity, hydrophilicity, and etc.</li>
+<li> <b>One-hot vector representation (length: 21) --- onehot</b>: vector representation indicating which amino acid exists at each specific position, where each index in the vector indicates the presence or absence of that amino acid.</li>
+<li> <b>ProtVec embedding (length: 50) --- protvec</b>: representation trained using Skip-gram neural network on protein amino acid sequences (ProtVec). The only difference would be character-level training instead of n-gram based training. </li>
+<li> <b>Contextualized embedding (length: 300) --- elmo</b>: we use the contextualized embedding of the amino acids trained in the course of language modeling, known as ELMo, as a new feature for the secondary structure task. Contextualized embedding is the concatenation of the hidden states of a deep bidirectional language model. The main difference between ProtVec embedding and ELMO embedding is that the ProtVec embedding for a given amino acid or amino acid k-mer is fixed and the representation would be the same in different sequences. However, the contextualized embedding, as it is clear from its name, is an embedding of word changing based on its context. We train ELMo embedding of amino acids using UniRef50 dataset in the dimension size of 300.</li>
+<li> <b>Position Specific Scoring Matrix (PSSM) features (length: 21) --- pssm</b>: PSSM is amino acid substitution scores calculated on protein multiple sequence alignment of homolog sequences for each given position in the protein sequence.</li>
+<li> <b>Biophysical features (length: 16) --- biophysical </b> For each amino acid we create a normalized vector of their biophysical properties, e.g., flexibility,  instability,  surface accessibility,  kd-hydrophobicity, hydrophilicity, and etc.</li>
 </ul>
+
+In order to use combinations of features in the software please use the following keywords for the key of `features_to_use`. The included one will be concatenated.
+
+```
+  features_to_use:
+  - onehot
+  - embedding
+  - elmo
+  - pssm
+  - biophysical
+```
+
 
 
 <hr/>

@@ -11,7 +11,7 @@ model_paramters:
   dropout_rate: 0.5
   features_to_use:
   - onehot
-  - sequence_profile
+  - pssm
   filter_size: 256
   lr: 0.001
   lstm_size: 1000
