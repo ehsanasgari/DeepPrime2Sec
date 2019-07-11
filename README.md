@@ -5,6 +5,7 @@
 [Installation](#Installation)
 
 [Configuration](#Configuration)
+[Features](##Features)
 
 
 <hr/>
@@ -72,6 +73,8 @@ python deepprime2sec.py --config sample_configs/model_a.yaml
 <a name="Configuration"/>
 
 ## Features to use
+<a name="Features"/>
+
 
 We experiment on five sets of protein features to understand what are essential features for the task of protein secondary structure prediction. Although in 1999, PSSM was reported as an important feature to the secondary structure prediction (Jones et al, 1999),
 this was still unclear whether recently introduced distributed representations can outperform PSSM in such a task. For a systematic comparison, the features detailed as follows are used:
@@ -120,7 +123,7 @@ model_paramters:
   dropout_rate: 0.5
   features_to_use:
   - onehot
-  - sequence_profile
+  - pssm
   lr: 0.001
   lstm_size: 1000
 run_parameters:
@@ -149,7 +152,7 @@ model_paramters:
   dropout_rate: 0.5
   features_to_use:
   - onehot
-  - sequence_profile
+  - pssm
   filter_size: 256
   lr: 0.001
   lstm_size: 1000
@@ -183,7 +186,7 @@ model_paramters:
   dropout_rate: 0.5
   features_to_use:
   - onehot
-  - sequence_profile
+  - pssm
   filter_size: 256
   lr: 0.001
   lstm_size: 1000
@@ -216,7 +219,7 @@ model_paramters:
   dropout_rate: 0.5
   features_to_use:
   - onehot
-  - sequence_profile
+  - pssm
   filter_size: 256
   lr: 0.001
   lstm_size: 1000
@@ -247,7 +250,7 @@ model_paramters:
   dropout_rate: 0.5
   features_to_use:
   - onehot
-  - sequence_profile
+  - pssm
   filter_size: 256
   lr: 0.001
   use_CRF: false
@@ -277,7 +280,7 @@ model_paramters:
   dropout_rate: 0.5
   features_to_use:
   - onehot
-  - sequence_profile
+  - pssm
   filter_size: 256
   lr: 0.001
   multiscalecnn_layers: 3
