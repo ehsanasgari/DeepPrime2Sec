@@ -1,8 +1,28 @@
 # DeepPrime2Sec
 
+## Summary
 
-## Model (a) CNN + BiLSTM
 
+## Installation
+
+
+## Running example
+
+
+### Sample output
+
+
+## Features to use
+
+
+
+## How to configure input for different deep learning models
+
+
+### Model (a) CNN + BiLSTM
+
+
+Sample config file
 ```
 deep_learning_model: a_cnn_bilstm
 model_paramters:
@@ -29,6 +49,9 @@ run_parameters:
   train_batch_size: 64
 ```
 ## Model (b) CNN + BiLSTM + Highway Connection of PSSM
+
+
+Sample config file
 ```
 deep_learning_model: model_b_cnn_bilstm_highway
 model_paramters:
@@ -58,7 +81,10 @@ run_parameters:
 
 ```
 
+
 ## Model (c) CNN + BiLSTM + Conditional Random Field Layer
+
+Sample config file
 ```
 deep_learning_model: model_c_cnn_bilstm
 model_paramters:
@@ -89,6 +115,8 @@ run_parameters:
 ```
 
 ## Model (d) CNN + BiLSTM + Attention mechanism
+
+Sample config file
 ```
 deep_learning_model: model_d_cnn_bilstm_attention
 model_paramters:
@@ -120,6 +148,8 @@ run_parameters:
 ```
 
 ## Model (e) CNN
+
+Sample config file
 ```
 deep_learning_model: model_e_cnn
 model_paramters:
@@ -148,6 +178,8 @@ run_parameters:
 ```
 
 ## Model (f) Multiscale CNN
+
+Sample config file
 ```
 deep_learning_model: model_f_multiscale_cnn
 model_paramters:
