@@ -222,7 +222,7 @@ model_paramters:
 
 ## Model (b) CNN + BiLSTM + Highway Connection of PSSM
 
-For the details of CNN + BiLSTM model please refer to the paper, to specify this model for the paper use `deep_learning_model: a_cnn_bilstm`
+For the details of CNN + + Highway Connection of PSSM model please refer to the paper, to specify this model for the paper use `deep_learning_model: model_b_cnn_bilstm_highway`
 
 ![mdoel_b](https://user-images.githubusercontent.com/8551117/61133494-d91f6b80-a4bd-11e9-8999-4ce501289ec2.png)
 
@@ -245,7 +245,7 @@ For the details of CNN + BiLSTM model please refer to the paper, to specify this
 
 Sample config file
 ```
-deep_learning_model: a_cnn_bilstm
+deep_learning_model: model_b_cnn_bilstm_highway
 model_paramters:
   convs:
   - 3
@@ -267,34 +267,47 @@ model_paramters:
 
 ## Model (c) CNN + BiLSTM + Conditional Random Field Layer
 
+For the details of CNN + BiLSTM + Conditional Random Field Layer model please refer to the paper, to specify this model for the paper use `deep_learning_model: model_c_cnn_bilstm`
+
+![model_c](https://user-images.githubusercontent.com/8551117/61134185-54355180-a4bf-11e9-9586-d7b996f205a7.png)
+
+`convs` refers to the convolution window sizes (in the following example we use 5 window sizes of  3, 5, 7, and 11).
+
+`filter_size` is the size of convolutional filters.
+
+`dense_size` is the size of feed forward layers are used before and after LSTM.
+
+`dropout_rate` is the dropout rate.
+
+`lstm_size` is the hidden size of bidirectional LSTM.
+
+`lr` is the learning rate.
+
+`features_to_use` is already covered at [3.1 Features](#Features).
+
+`CRF_input_dim` the input dimension of CRF layer.
+
+
 Sample config file
 ```
-deep_learning_model: model_c_cnn_bilstm
+deep_learning_model: model_c_cnn_bilstm_crf
 model_paramters:
-  CRF_input_dim: 200
   convs:
   - 3
   - 5
   - 7
   - 11
   - 21
+  filter_size: 256
   dense_size: 1000
   dropout_rate: 0.5
+  lstm_size: 1000
+  lr: 0.001
   features_to_use:
   - onehot
   - pssm
-  filter_size: 256
-  lr: 0.001
   lstm_size: 1000
-run_parameters:
-  domain_name: baseline
-  epochs: 100
-  gpu: 1
-  patience: 10
-  setting_name: baseline
-  test_batch_size: 100
-  train_batch_size: 64
-
+  CRF_input_dim: 200
 ```
 
 ## Model (d) CNN + BiLSTM + Attention mechanism

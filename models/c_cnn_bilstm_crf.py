@@ -19,7 +19,7 @@ np.random.seed(0)
 
 
 
-def model_c_cnn_bilstm(n_classes, convs=[3, 5, 7], dense_size=200, lstm_size=400, dropout_rate=0.5,
+def model_c_cnn_bilstm_crf(n_classes, convs=[3, 5, 7], dense_size=200, lstm_size=400, dropout_rate=0.5,
                        features_to_use=['onehot', 'pssm'], filter_size=256, CRF_input_dim=200, lr=0.001):
     '''
     :param n_classes:

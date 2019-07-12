@@ -1,4 +1,4 @@
-deep_learning_model: model_c_cnn_bilstm
+deep_learning_model: model_c_cnn_bilstm_crf
 model_paramters:
   CRF_input_dim: 200
   convs:

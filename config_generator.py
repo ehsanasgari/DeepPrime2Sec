@@ -19,7 +19,7 @@ config_model_b = {'run_parameters':
 config_model_c = {'run_parameters':
                       {'domain_name': 'baseline', 'gpu': 1, 'setting_name': 'baseline', 'train_batch_size': 64,
                        'test_batch_size': 100, 'patience': 10, 'epochs': 100},
-                  'deep_learning_model': 'model_c_cnn_bilstm',
+                  'deep_learning_model': 'model_c_cnn_bilstm_crf',
                   'model_paramters': {'convs': [3, 5, 7, 11, 21], 'dense_size': 1000, 'lstm_size': 1000,
                                       'dropout_rate' : 0.5, 'filter_size':256, 'lr' : 0.001, 'features_to_use': ['onehot',
                                                                                               'pssm'], 'CRF_input_dim':200}}
