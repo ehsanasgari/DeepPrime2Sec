@@ -1,5 +1,7 @@
 # DeepPrime2Sec
 
+<hr/>
+
 ## Table of content
 
 [1. Summary](#Summary)
@@ -13,6 +15,8 @@
 [3.2 Training parameters](##Training)
 
 [3.3 Model specific parameters](##Models)
+
+[4. Output](##Output)
 
 
 <hr/>
@@ -61,23 +65,20 @@ source activate deepprime2sec
 Before running the software make sure to download the traning dataset (which was too large for git) from here.
 
 
-## Running example
-
-In order to run the DeepPrime2Sec, you can simply use the following command.
-Every details on different deep learning models: architecture, hyper parameter, training parameters, etc, will be provided in the yaml config file. Later in the README we have detailed how this file should be created.
-
-```
-python deepprime2sec.py --config sample_configs/model_a.yaml
-```
-
-
-### Sample output
-
-
 <hr/>
 
 # Running Configuration
 <a name="Configuration"/>
+
+### Running example
+
+In order to run the DeepPrime2Sec, you can simply use the following command.
+Every details on different deep learning models: architecture, hyper parameter, training parameters, will be provided in the yaml config file.
+Here we detail how this file should be created. Examples are also provided in `sample_configs/*.yaml`.
+
+```
+python deepprime2sec.py --config sample_configs/model_a.yaml
+```
 
 ## Features to use
 <a name="Features"/>
@@ -94,9 +95,11 @@ this was still unclear whether recently introduced distributed representations c
 <li> <b>Biophysical features (length: 16) --- biophysical </b> For each amino acid we create a normalized vector of their biophysical properties, e.g., flexibility,  instability,  surface accessibility,  kd-hydrophobicity, hydrophilicity, and etc.</li>
 </ul>
 
-In order to use combinations of features in the software please use the following keywords for the key of `features_to_use`. The included one will be concatenated.
+In order to use combinations of features in the software please use the following keywords for the key of `features_to_use`. `features_to_use` is part of model parameters.
+The included features in the config will be concatenated as input:
 
 ```
+ model_paramters:
   features_to_use:
   - onehot
   - embedding
@@ -105,13 +108,15 @@ In order to use combinations of features in the software please use the followin
   - biophysical
 ```
 
+<hr/>
 
+## Training parameters
+<a name="Training"/>
 
 <hr/>
 
-
 ## How to configure input for different deep learning models
-
+<a name="Models"/>
 
 ### Model (a) CNN + BiLSTM
 
@@ -301,3 +306,11 @@ run_parameters:
   test_batch_size: 100
   train_batch_size: 64
 ```
+
+
+
+<hr/>
+
+## Output
+<a name="Output"/>
+
