@@ -40,7 +40,7 @@ Through error analysis on the best performing model, we showed that the misclass
 
 DeepPrime2Sec and the used datasets are available here under the Apache 2 license.
 
-Return to the [table of content ↑] (#tableofcontent).
+Return to the [table of content ↑](#tableofcontent).
 
 <a name="Installation"/>
 # Installation
@@ -63,7 +63,7 @@ source activate deepprime2sec
 Before running the software make sure to download the traning dataset (which was too large for git) from here.
 
 
-Return to the [table of content ↑] (#tableofcontent).
+Return to the [table of content ↑](#tableofcontent).
 
 <hr/>
 
@@ -110,7 +110,7 @@ The included features in the config will be concatenated as input:
 ```
 
 
-Return to the [table of content ↑] (#tableofcontent).
+Return to the [table of content ↑](#tableofcontent).
 
 <hr/>
 
@@ -312,7 +312,7 @@ run_parameters:
 ```
 
 
-Return to the [table of content ↑] (#tableofcontent).
+Return to the [table of content ↑](#tableofcontent).
 
 <hr/>
 
