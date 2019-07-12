@@ -312,6 +312,32 @@ model_paramters:
 
 ## Model (d) CNN + BiLSTM + Attention mechanism
 
+For the details of CNN + BiLSTM + Attention mechanism model please refer to the paper, to specify this model for the paper use `deep_learning_model: model_d_cnn_bilstm_attention`
+
+![model_d-2](https://user-images.githubusercontent.com/8551117/61134627-4f24d200-a4c0-11e9-982b-49279a5da669.png)
+
+`attention_type` is the attention type to be selected from `additive` or `multiplicative`.
+
+`attention_units` is the number of attention units.
+
+`convs` refers to the convolution window sizes (in the following example we use 5 window sizes of  3, 5, 7, and 11).
+
+`filter_size` is the size of convolutional filters.
+
+`dense_size` is the size of feed forward layers are used before and after LSTM.
+
+`dropout_rate` is the dropout rate.
+
+`lstm_size` is the hidden size of bidirectional LSTM.
+
+`lr` is the learning rate.
+
+`features_to_use` is already covered at [3.1 Features](#Features).
+
+`use_CRF` is indicate whether you would like to include a CRF layer at the end.
+
+
+
 Sample config file
 ```
 deep_learning_model: model_d_cnn_bilstm_attention
@@ -324,23 +350,16 @@ model_paramters:
   - 7
   - 11
   - 21
+  filter_size: 256
   dense_size: 1000
   dropout_rate: 0.5
+  lstm_size: 1000
+  lr: 0.001
   features_to_use:
   - onehot
   - pssm
-  filter_size: 256
-  lr: 0.001
   lstm_size: 1000
-  use_CRF: false
-run_parameters:
-  domain_name: baseline
-  epochs: 100
-  gpu: 1
-  patience: 10
-  setting_name: baseline
-  test_batch_size: 100
-  train_batch_size: 64
+  CRF_input_dim: 200
 ```
 
 ## Model (e) CNN
