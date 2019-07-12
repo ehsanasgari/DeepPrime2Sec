@@ -474,3 +474,6 @@ Finally after completion of training, DeepPrime2Seq generate a PDF of the report
  - [x] The learning curve
  - [x] The neural network weights for the best models
 
+
+![Screen Shot 2019-07-12 at 5 33 43 PM](https://user-images.githubusercontent.com/8551117/61140182-42f24200-a4cb-11e9-9c84-e8e3837ddf0a.png)
+![Screen Shot 2019-07-12 at 5 33 30 PM](https://user-images.githubusercontent.com/8551117/61140191-45ed3280-a4cb-11e9-95f5-e12745b5de61.png)
