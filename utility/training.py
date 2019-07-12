@@ -141,5 +141,5 @@ def generate_report(pred_test, domain, setting):
     #log-likelihood ratio (i.e. the “G-test”)
     gtest_res = scipy.stats.chi2_contingency([[error_edge, error_NOTedge],[correct_edge, correct_NOTedge]], lambda_="log-likelihood", correction=True)
     gtest_res_pval = gtest_res[1]
-
+    #https://stackoverflow.com/questions/51864730/python-what-is-the-process-to-create-pdf-reports-with-charts-from-a-db
     return acc_test, conf_mat, conf_mat_column_mapping, contingency_metric, chi2_res_pval, gtest_res_pval

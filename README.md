@@ -473,4 +473,4 @@ Finally after completion of training, DeepPrime2Seq generate a PDF of the report
  - [x] Contingency metric of the error at the edges of secondary structure changing, along with the p-value of Chi-Square and G-test tests.
  - [x] The learning curve
  - [x] The neural network weights for the best models
- 
+
