@@ -102,7 +102,7 @@ python deepprime2sec.py --config sample_configs/model_a.yaml
 ```
 
 <a name="Features"/>
-## Features to use
+# Features to use
 
 
 We experiment on five sets of protein features to understand what are essential features for the task of protein secondary structure prediction. Although in 1999, PSSM was reported as an important feature to the secondary structure prediction (Jones et al, 1999),
@@ -136,6 +136,41 @@ Return to the [table of content ↑](#tableofcontent).
 
 ## Training parameters
 <a name="Training"/>
+
+The following is an example of parameters for running the training and storing the results (`run_parameters`).
+
+```
+run_parameters:
+  domain_name: baseline
+  setting_name: baseline
+  epochs: 100
+  test_batch_size: 100
+  train_batch_size: 64
+  patience: 10
+  gpu: 1
+```
+
+
+### `domain` and `setting_name`
+
+The results of the model would be saved to `results` directory. The `domain` and `setting_name` parameters will be created as directy and sub-directories inside `results` to store the model weights
+and results.
+
+### `epoch` and `batch-sizes`
+
+`epoch` refers to the number of time to iterate over the training data and `batch_size` refers to the size of data-split in each optimization step.
+For a proper and faster learning we have already performed bucketing (sorting the training sequences according to their lengths), which minimizes the padding operations as well.
+
+### `patience`
+
+To avoid overfitting we perform early stopping, meaning that if the performance only improves over the training set and not the test set after a few epoch we stop the training.
+Because then it means that the model specialized to the training data by memorizing and cannot generalize further for the test set. `patience` determine for how many epochs we should wait for an improvement on the test set.
+
+### `gpu`
+
+Which GPU device ID to use for training/testing the model.
+
+Return to the [table of content ↑](#tableofcontent).
 
 <hr/>
 
