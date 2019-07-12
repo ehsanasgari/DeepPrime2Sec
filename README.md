@@ -1,11 +1,18 @@
 # DeepPrime2Sec
 
-[Summary](#Summary)
+## Table of content
 
-[Installation](#Installation)
+[1. Summary](#Summary)
 
-[Configuration](#Configuration)
-[Features](##Features)
+[2. Installation](#Installation)
+
+[3. Running Configuration](#Configuration)
+
+[3.1 Features](##Features)
+
+[3.2 Training parameters](##Training)
+
+[3.3 Model specific parameters](##Models)
 
 
 <hr/>
