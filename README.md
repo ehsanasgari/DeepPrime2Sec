@@ -406,39 +406,62 @@ model_paramters:
 
 ## Model (f) Multiscale CNN
 
+For the details of Multiscale CNN model please refer to the paper, to specify this model for the paper use `deep_learning_model: model_f_multiscale_cnn`
+
+![model_f](https://user-images.githubusercontent.com/8551117/61135721-85fbe780-a4c2-11e9-8f65-3ea3ac2b17ee.png)
+
+`multiscalecnn_layers` how many gated muliscale CNNs should be stacked.
+
+`cnn_regularizer` regularizing parameter for the CNN.
+
+`convs` refers to the convolution window sizes (in the following example we use 5 window sizes of  3, 5, 7, and 11).
+
+`filter_size` is the size of convolutional filters.
+
+`dense_size` is the size of feed forward layers are after the concatenation of convlolution results.
+
+`dropout_rate` is the dropout rate.
+
+`lr` is the learning rate.
+
+`features_to_use` is already covered at [3.1 Features](#Features).
+
+`use_CRF` is indicate whether you would like to include a CRF layer at the end.
+
 Sample config file
 ```
 deep_learning_model: model_f_multiscale_cnn
 model_paramters:
   cnn_regularizer: 5.0e-05
+  multiscalecnn_layers: 3
   convs:
   - 3
   - 5
   - 7
   - 11
   - 21
+  filter_size: 256
+  dense_size: 1000
   dropout_rate: 0.5
+  lstm_size: 1000
+  lr: 0.001
   features_to_use:
   - onehot
   - pssm
-  filter_size: 256
-  lr: 0.001
-  multiscalecnn_layers: 3
+  lstm_size: 1000
   use_CRF: false
-run_parameters:
-  domain_name: baseline
-  epochs: 100
-  gpu: 1
-  patience: 10
-  setting_name: baseline
-  test_batch_size: 100
-  train_batch_size: 64
 ```
-
 
 Return to the [table of content ↑](#tableofcontent).
 
 <hr/>
+
+## Your own model
+
+Create your own model by just using the template of model_a to .._f, and test its performance against the existing methods.
+
+Return to the [table of content ↑](#tableofcontent).
+
 
 ## Output
 <a name="Output"/>
