@@ -1,7 +1,5 @@
 # DeepPrime2Sec
 
-<hr/>
-
 ## Table of content
 
 [1. Summary](#Summary)
@@ -17,7 +15,6 @@
 [3.3 Model specific parameters](##Models)
 
 [4. Output](##Output)
-
 
 <hr/>
 
