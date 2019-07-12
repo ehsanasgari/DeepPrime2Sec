@@ -1,5 +1,6 @@
 # DeepPrime2Sec
 
+<a name="tableofcontent"/>
 ## Table of content
 
 [1. Summary](#Summary)
@@ -39,10 +40,10 @@ Through error analysis on the best performing model, we showed that the misclass
 
 DeepPrime2Sec and the used datasets are available here under the Apache 2 license.
 
+Return to the [table of content ↑] (#tableofcontent).
 
-
-# Installation
 <a name="Installation"/>
+# Installation
 
 ## Conda environment set up
 
@@ -62,10 +63,13 @@ source activate deepprime2sec
 Before running the software make sure to download the traning dataset (which was too large for git) from here.
 
 
+Return to the [table of content ↑] (#tableofcontent).
+
 <hr/>
 
-# Running Configuration
+
 <a name="Configuration"/>
+# Running Configuration
 
 ### Running example
 
@@ -77,8 +81,8 @@ Here we detail how this file should be created. Examples are also provided in `s
 python deepprime2sec.py --config sample_configs/model_a.yaml
 ```
 
-# Features to use
 <a name="Features"/>
+# Features to use
 
 
 We experiment on five sets of protein features to understand what are essential features for the task of protein secondary structure prediction. Although in 1999, PSSM was reported as an important feature to the secondary structure prediction (Jones et al, 1999),
@@ -104,6 +108,9 @@ The included features in the config will be concatenated as input:
   - pssm
   - biophysical
 ```
+
+
+Return to the [table of content ↑] (#tableofcontent).
 
 <hr/>
 
@@ -305,6 +312,7 @@ run_parameters:
 ```
 
 
+Return to the [table of content ↑] (#tableofcontent).
 
 <hr/>
 
