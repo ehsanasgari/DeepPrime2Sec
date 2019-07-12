@@ -44,6 +44,7 @@ DeepPrime2Sec and the used datasets are available here under the Apache 2 licens
 Return to the [table of content ↑](#tableofcontent).
 
 <a name="Installation"/>
+
 # Installation
 
 ## Pip installation
