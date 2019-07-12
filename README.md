@@ -179,6 +179,24 @@ Return to the [table of content ↑](#tableofcontent).
 
 ### Model (a) CNN + BiLSTM
 
+For the details of CNN + BiLSTM model please refer to the paper.
+
+![model_a](https://user-images.githubusercontent.com/8551117/61132550-e0457a00-a4bb-11e9-84e9-538d6455ce98.png)
+
+`convs` refers to the convolution window sizes (in the following example we use 5 window sizes of  3, 5, 7, and 11).
+
+`filter_size` is the size of convolutional filters.
+
+`dense_size` is the size of feed forward layers are used before and after LSTM.
+
+`dropout_rate` is the dropout rate.
+
+`lstm_size` is the hidden size of bidirectional LSTM.
+
+`lr` is the learning rate.
+
+`features_to_use` is already covered at [3.1 Features](#Features).
+
 
 Sample config file
 ```
@@ -190,22 +208,18 @@ model_paramters:
   - 7
   - 11
   - 21
+  filter_size: 256
   dense_size: 1000
   dropout_rate: 0.5
+  lstm_size: 1000
+  lr: 0.001
   features_to_use:
   - onehot
   - pssm
-  lr: 0.001
-  lstm_size: 1000
-run_parameters:
-  domain_name: baseline
-  epochs: 10
-  gpu: 1
-  patience: 10
-  setting_name: baseline
-  test_batch_size: 100
-  train_batch_size: 64
 ```
+
+
+
 ## Model (b) CNN + BiLSTM + Highway Connection of PSSM
 
 
