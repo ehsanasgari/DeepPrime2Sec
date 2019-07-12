@@ -76,7 +76,7 @@ source activate deepprime2sec
 
 
 Before running the software make sure to download the traning dataset (which was too large for git) from the following file
-and extract them and copy them to the dataset directory.
+and extract them and copy them to the `dataset` directory.
 
 ```
 http://deepbio.info/proteomics/datasets/deepprime2sec/train_files.tar.gz
