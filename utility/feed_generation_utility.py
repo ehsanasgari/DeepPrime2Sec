@@ -57,3 +57,28 @@ def validation_batch_generator_408(batch_size=100):
 
         start_idx += batch_size
         yield X, Y, np.array(W)
+
+
+def validation_batches_fortest_408(batchsize=100):
+    '''
+    :param batchsize:
+    :return:
+    '''
+    test_lengths = [int(i) for i in FileUtility.load_list(
+        '/home/easgari/projects/DeepSeq2Sec/data/s8_all_features/test_length.txt')]
+    X_test = np.load('/home/easgari/projects/DeepSeq2Sec/data/s8_all_features/X_test_408.npy')
+    Y_test = np.array(
+        np.load('/home/easgari/projects/DeepSeq2Sec/data/s8_all_features/test_mat_Y.npy'))
+    start_idx = 0
+    while start_idx < len(test_lengths):
+        X = X_test[start_idx:(min(start_idx + batchsize, len(test_lengths))),
+            0:test_lengths[min(start_idx + batchsize, len(test_lengths)) - 1]]
+        Y = Y_test[start_idx:(min(start_idx + batchsize, len(test_lengths))),
+            0:test_lengths[min(start_idx + batchsize, len(test_lengths)) - 1], :]
+        W = []
+        for idx in range(start_idx, (min(start_idx + batchsize, len(test_lengths)))):
+            W.append([1 if l < test_lengths[idx] else 0 for l in
+                      range(0, test_lengths[min(start_idx + batchsize, len(test_lengths)) - 1])])
+
+        start_idx += batchsize
+        yield X, Y, np.array(W)

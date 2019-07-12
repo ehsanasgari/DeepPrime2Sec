@@ -466,3 +466,11 @@ Return to the [table of content ↑](#tableofcontent).
 ## Output
 <a name="Output"/>
 
+Finally after completion of training, DeepPrime2Seq generate a PDF of the report with the following information at `results/$domain/$setting/report.pdf`:
+
+ - [x] The accuracy of trained model on the standard test set of the task (CB513)
+ - [x] Confusion matrix of the model
+ - [x] Contingency metric of the error at the edges of secondary structure changing, along with the p-value of Chi-Square and G-test tests.
+ - [x] The learning curve
+ - [x] The neural network weights for the best models
+ 

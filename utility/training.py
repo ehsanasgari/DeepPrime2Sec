@@ -5,11 +5,18 @@ import sys
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(currentdir)
 sys.path.insert(0, parentdir)
+import scipy
 
 from keras.callbacks import ModelCheckpoint, EarlyStopping
 from utility.file_utility import FileUtility
 from utility.labeling_utility import LabelingData
-from utility.feed_generation_utility import train_batch_generator_408, validation_batch_generator_408
+from utility.feed_generation_utility import train_batch_generator_408, validation_batch_generator_408, validation_batches_fortest_408
+import tqdm
+import numpy as np
+import itertools
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import confusion_matrix
+
 
 # predefined models
 from models.a_cnn_bilstm import model_a_cnn_bilstm
@@ -76,5 +83,63 @@ def training_loop(**kwargs):
                             validation_steps=validation_steps,
                             shuffle=False, epochs=epochs, verbose=1, callbacks=callbacks_list)
 
+    # Analysis of the performance
+    pred_test = [(model.predict_on_batch(x),y,w) for x,y,w in tqdm.tqdm(validation_batches_fortest_408(1))]
+
+    acc_test, conf_mat, conf_mat_column_mapping, contingency_metric, chi2_res_pval, gtest_res_pval = generate_report(pred_test)
+
     # save the history
     FileUtility.save_obj(full_path + 'history', h.history)
+
+
+def generate_report(pred_test, domain, setting):
+    '''
+    :param pred_test: test results
+    :return:
+    '''
+    # Error location analysis
+    error_edge=0
+    error_NOTedge=0
+    correct_edge=0
+    correct_NOTedge=0
+
+    all_pred = []
+    all_true = []
+
+    for i in tqdm.tqdm(range(0,514)):
+        pred=np.array([np.argmax(x, axis=1) for x in pred_test[i][0]])
+        true=np.array([np.argmax(x, axis=1) for x in pred_test[i][1]])
+        all_pred = all_pred + pred.tolist()
+        all_true = all_true + true.tolist()
+        diff=np.diff(true)
+        errors = [y for x,y in np.argwhere(pred!=true)]
+        corrects = list(set(list(range(len(pred[0]))))-set(errors))
+        edges_edge  = [y for x,y in np.argwhere(diff!=0)]
+        edges_before = [x-1 for x in edges_edge if x-1>=0]
+        edges_after = [x+1 for x in edges_edge if x+1<len(pred[0])]
+        edges = list(set(edges_edge + edges_before + edges_after))
+        # contingency matrix
+        error_edge = error_edge+len(list(set(errors).intersection(edges)))
+        error_NOTedge = error_NOTedge+len(list(set(errors)-set(edges)))
+
+        correct_edge = correct_edge+len(list(set(corrects).intersection(edges)))
+        correct_NOTedge = correct_NOTedge+len(list(set(corrects)-set(edges)))
+
+    all_pred = list(itertools.chain(*all_pred))
+    all_true = list(itertools.chain(*all_true))
+
+    acc_test = accuracy_score(all_true, all_pred)
+    conf_mat = confusion_matrix(all_true, all_pred, labels=list(range(1,9)))
+    conf_mat_column_mapping = {3: 'e', 4: 'g', 2: 'b', 6: 'h', 8: 't', 1: 'l', 7: 's', 5: 'i'}
+
+    contingency_metric = [[error_edge, error_NOTedge],[correct_edge, correct_NOTedge]]
+
+    # Chi2 test
+    chi2_res = scipy.stats.chi2_contingency([[error_edge, error_NOTedge],[correct_edge, correct_NOTedge]], correction=True)
+    chi2_res_pval = chi2_res[1]
+
+    #log-likelihood ratio (i.e. the “G-test”)
+    gtest_res = scipy.stats.chi2_contingency([[error_edge, error_NOTedge],[correct_edge, correct_NOTedge]], lambda_="log-likelihood", correction=True)
+    gtest_res_pval = gtest_res[1]
+
+    return acc_test, conf_mat, conf_mat_column_mapping, contingency_metric, chi2_res_pval, gtest_res_pval
