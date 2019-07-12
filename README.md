@@ -359,10 +359,28 @@ model_paramters:
   - onehot
   - pssm
   lstm_size: 1000
-  CRF_input_dim: 200
+  use_CRF: false
 ```
 
 ## Model (e) CNN
+
+For the details of CNN model please refer to the paper, to specify this model for the paper use `deep_learning_model: model_e_cnn`
+
+![model_e](https://user-images.githubusercontent.com/8551117/61135353-b42cf780-a4c1-11e9-87aa-fdcc13a2892f.png)
+
+`convs` refers to the convolution window sizes (in the following example we use 5 window sizes of  3, 5, 7, and 11).
+
+`filter_size` is the size of convolutional filters.
+
+`dense_size` is the size of feed forward layers are after the concatenation of convlolution results.
+
+`dropout_rate` is the dropout rate.
+
+`lr` is the learning rate.
+
+`features_to_use` is already covered at [3.1 Features](#Features).
+
+`use_CRF` is indicate whether you would like to include a CRF layer at the end.
 
 Sample config file
 ```
@@ -374,22 +392,16 @@ model_paramters:
   - 7
   - 11
   - 21
+  filter_size: 256
   dense_size: 1000
   dropout_rate: 0.5
+  lstm_size: 1000
+  lr: 0.001
   features_to_use:
   - onehot
   - pssm
-  filter_size: 256
-  lr: 0.001
+  lstm_size: 1000
   use_CRF: false
-run_parameters:
-  domain_name: baseline
-  epochs: 100
-  gpu: 1
-  patience: 10
-  setting_name: baseline
-  test_batch_size: 100
-  train_batch_size: 64
 ```
 
 ## Model (f) Multiscale CNN
