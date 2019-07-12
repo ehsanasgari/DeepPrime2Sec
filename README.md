@@ -8,11 +8,11 @@
 
 [3. Running Configuration](#Configuration)
 
-[3.1 Features](##Features)
+[3.1 Features](#Features)
 
-[3.2 Training parameters](##Training)
+[3.2 Training parameters](#Training)
 
-[3.3 Model specific parameters](##Models)
+[3.3 Model specific parameters](#Models)
 
 [4. Output](##Output)
 
@@ -77,7 +77,7 @@ Here we detail how this file should be created. Examples are also provided in `s
 python deepprime2sec.py --config sample_configs/model_a.yaml
 ```
 
-## Features to use
+# Features to use
 <a name="Features"/>
 
 
