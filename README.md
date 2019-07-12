@@ -1,7 +1,7 @@
 # DeepPrime2Sec
 
 <a name="tableofcontent"/>
-## Table of content
+# Table of content
 
 [1. Summary](#Summary)
 
