@@ -46,13 +46,23 @@ Return to the [table of content ↑](#tableofcontent).
 <a name="Installation"/>
 # Installation
 
-## Conda environment set up
+## Pip installation
 
+
+In order to install the required libraries for running DeepPrime2Sec use the following command:
+
+```
+pip install installations/requirements.txt
+```
+
+OR you may use conda installation.
+
+## Conda installation
 
 In order to install the required libraries for running DeepPrime2Sec use the following conda command:
 
 ```
-conda create --name deepprime2sec --file installations/env_linux.txt
+conda create --name deepprime2sec --file installations/deepprime2sec.yml
 ```
 
 Subsequently, you need to activate the created virtual environment before running:
