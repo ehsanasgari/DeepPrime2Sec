@@ -11,12 +11,16 @@ from keras.callbacks import ModelCheckpoint, EarlyStopping
 from utility.file_utility import FileUtility
 from utility.labeling_utility import LabelingData
 from utility.feed_generation_utility import train_batch_generator_408, validation_batch_generator_408, validation_batches_fortest_408
+from utility.vis_utility import create_mat_plot
 import tqdm
 import numpy as np
 import itertools
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, f1_score
 from sklearn.metrics import confusion_matrix
+from fpdf import FPDF, HTMLMixin
 
+class MyFPDF(FPDF, HTMLMixin):
+    pass
 
 # predefined models
 from models.a_cnn_bilstm import model_a_cnn_bilstm
@@ -86,13 +90,14 @@ def training_loop(**kwargs):
     # Analysis of the performance
     pred_test = [(model.predict_on_batch(x),y,w) for x,y,w in tqdm.tqdm(validation_batches_fortest_408(1))]
 
-    acc_test, conf_mat, conf_mat_column_mapping, contingency_metric, chi2_res_pval, gtest_res_pval = generate_report(pred_test)
+    acc_test, conf_mat, conf_mat_column_mapping, contingency_metric, chi2_res_pval, gtest_res_pval = generate_report(full_path, pred_test, run_parameters['domain_name'], run_parameters['setting_name'])
 
     # save the history
     FileUtility.save_obj(full_path + 'history', h.history)
 
 
-def generate_report(pred_test, domain, setting):
+
+def generate_report(full_path, pred_test, domain, setting):
     '''
     :param pred_test: test results
     :return:
@@ -129,6 +134,9 @@ def generate_report(pred_test, domain, setting):
     all_true = list(itertools.chain(*all_true))
 
     acc_test = accuracy_score(all_true, all_pred)
+    f1_macro = f1_score(all_true, all_pred, average='macro')
+    f1_micro = f1_score(all_true, all_pred, average='micro')
+
     conf_mat = confusion_matrix(all_true, all_pred, labels=list(range(1,9)))
     conf_mat_column_mapping = {3: 'e', 4: 'g', 2: 'b', 6: 'h', 8: 't', 1: 'l', 7: 's', 5: 'i'}
 
@@ -142,4 +150,62 @@ def generate_report(pred_test, domain, setting):
     gtest_res = scipy.stats.chi2_contingency([[error_edge, error_NOTedge],[correct_edge, correct_NOTedge]], lambda_="log-likelihood", correction=True)
     gtest_res_pval = gtest_res[1]
     #https://stackoverflow.com/questions/51864730/python-what-is-the-process-to-create-pdf-reports-with-charts-from-a-db
+
+
+    create_mat_plot(conf_mat,[conf_mat_column_mapping[x] for x in list(range(1,9))], 'Confusion matrix of protein secondary structure prediction', full_path+'confusion'+F"{domain}_{setting}",'True Label','Predicted Label' ,filetype='png', annot=False, cmap='YlGnBu' )
+
+
+    pdf = MyFPDF()
+    pdf.add_page()
+    pdf.set_xy(0, 0)
+
+    html = F"""
+    
+    <h2>DeepPrime2Sec Report on Protein Secondary Structure Prediction</h2>
+    <h3>Experiment name: {domain} - {setting} </h3>
+    <hr/>
+    
+    <H3 align="left">The performance on CB513</H3>
+    <h4>Report on the accuracy</h4>
+    
+    <table border="1" align="center" width="70%">
+    <thead><tr><th width="30%">Test-set Accuray</th><th width="30%">Test-set micro F1</th><th width="30%">Test-set macro F1</th></tr></thead>
+    <tbody>
+    <tr><td>{round(acc_test,2)}</td><td>{round(f1_micro,2)}</td><td>{round(f1_macro,2)}</td></tr>
+    </tbody>
+    </table>
+    
+    <h4>Confusion matrix</h4>
+    
+    
+    """
+
+    pdf.write_html(html)
+    pdf.image(full_path+'confusion'+F"{domain}_{setting}"+'.png', x = 50, y = None, w = 100, h = 0, type = '', link = '')
+
+    html=F"""
+    <center>
+    <image src='confusion{domain}_{setting}.png'/>
+    </center>
+    
+    <h4>Error analysis</h4>
+    
+    <h5>Contingency table for location analysis of the misclassified amino acids</h5>
+    <table border="1" align="center" width="100%">
+    <thead><tr><th width="30%">\</th><th width="30%">Located at the PSS transition</th><th width="30%">NOT Located at the PSS transition</th></tr></thead>
+    <tbody>
+    <tr><td><b>Miss-classified</b></td><td>{error_edge}</td><td>{error_NOTedge}</td></tr>
+    <tr><td><b>Truely classified</b></td><td>{correct_edge}</td><td>{correct_NOTedge}</td></tr>
+    </tbody>
+    </table>
+    
+    <b>P-value for Chi-square test</b> = {chi2_res_pval}
+    <br/>
+    <b>P-value for G-test</b> = {gtest_res_pval}
+    
+    """
+    pdf.write_html(html)
+
+    pdf.output(full_path+'final_report.pdf', 'F')
+
     return acc_test, conf_mat, conf_mat_column_mapping, contingency_metric, chi2_res_pval, gtest_res_pval
