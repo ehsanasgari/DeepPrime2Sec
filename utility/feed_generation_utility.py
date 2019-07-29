@@ -65,10 +65,10 @@ def validation_batches_fortest_408(batchsize=100):
     :return:
     '''
     test_lengths = [int(i) for i in FileUtility.load_list(
-        '/home/easgari/projects/DeepSeq2Sec/data/s8_all_features/test_length.txt')]
-    X_test = np.load('/home/easgari/projects/DeepSeq2Sec/data/s8_all_features/X_test_408.npy')
+        'datasets/test_length.txt')]
+    X_test = np.load('datasets/X_test_408.npy')
     Y_test = np.array(
-        np.load('/home/easgari/projects/DeepSeq2Sec/data/s8_all_features/test_mat_Y.npy'))
+        np.load('datasets/test_mat_Y.npy'))
     start_idx = 0
     while start_idx < len(test_lengths):
         X = X_test[start_idx:(min(start_idx + batchsize, len(test_lengths))),
