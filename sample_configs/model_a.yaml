@@ -16,9 +16,9 @@ model_paramters:
   lstm_size: 1000
 run_parameters:
   domain_name: baseline
-  epochs: 100
+  epochs: 1
   gpu: 1
-  patience: 10
+  patience: 1
   setting_name: baseline
   test_batch_size: 100
   train_batch_size: 64
