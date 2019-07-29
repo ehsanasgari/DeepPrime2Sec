@@ -175,7 +175,7 @@ def generate_report(full_path, pred_test, domain, setting):
     <table border="1" align="center" width="70%">
     <thead><tr><th width="30%">Test-set Accuray</th><th width="30%">Test-set micro F1</th><th width="30%">Test-set macro F1</th></tr></thead>
     <tbody>
-    <tr><td>{round(acc_test,2)}</td><td>{round(f1_micro,2)}</td><td>{round(f1_macro,2)}</td></tr>
+    <tr><td>{round(acc_test,3)}</td><td>{round(f1_micro,3)}</td><td>{round(f1_macro,3)}</td></tr>
     </tbody>
     </table>
 
