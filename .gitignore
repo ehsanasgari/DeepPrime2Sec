@@ -12,6 +12,7 @@ build/
 develop-eggs/
 .idea/
 dist/
+datasets/*train*
 downloads/
 eggs/
 .eggs/
