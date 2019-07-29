@@ -142,7 +142,7 @@ def generate_report(full_path, pred_test, domain, setting):
     f1_micro = f1_score(all_true, all_pred, average='micro')
 
     conf_mat = confusion_matrix(all_true, all_pred, labels=list(range(1,9)))
-    conf_mat_column_mapping = {3: 'e', 4: 'g', 2: 'b', 6: 'h', 8: 't', 1: 'l', 7: 's', 5: 'i'}
+    conf_mat_column_mapping = {3: 'E (Beta sheet)', 4: 'G (3-10 Helix)', 2: 'B (Beta bridge)', 6: 'H (Alpha helix)', 8: 'T (Turn)', 1: 'L (Loop)', 7: 'S (Bend)', 5: 'I (Pi Helix)'}
 
     contingency_metric = [[error_edge, error_NOTedge],[correct_edge, correct_NOTedge]]
 
@@ -178,6 +178,8 @@ def generate_report(full_path, pred_test, domain, setting):
     <tr><td>{round(acc_test,2)}</td><td>{round(f1_micro,2)}</td><td>{round(f1_macro,2)}</td></tr>
     </tbody>
     </table>
+
+    <hr/>
     
     <h4>Confusion matrix</h4>
     
@@ -191,6 +193,8 @@ def generate_report(full_path, pred_test, domain, setting):
     <center>
     <image src='confusion{domain}_{setting}.png'/>
     </center>
+    
+    <hr/>
     
     <h4>Error analysis</h4>
     
@@ -207,6 +211,10 @@ def generate_report(full_path, pred_test, domain, setting):
     <br/>
     <b>P-value for G-test</b> = {gtest_res_pval}
     
+    <hr/>
+    <br/>
+    <br/>
+    <br/>
     
     <h4>Learning curve</h4>
     """
