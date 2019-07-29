@@ -18,6 +18,9 @@ import itertools
 from sklearn.metrics import accuracy_score, f1_score
 from sklearn.metrics import confusion_matrix
 from fpdf import FPDF, HTMLMixin
+import seaborn as sns; sns.set()
+import matplotlib.pyplot as plt
+import matplotlib
 
 class MyFPDF(FPDF, HTMLMixin):
     pass
@@ -151,8 +154,8 @@ def generate_report(full_path, pred_test, domain, setting):
     gtest_res_pval = gtest_res[1]
     #https://stackoverflow.com/questions/51864730/python-what-is-the-process-to-create-pdf-reports-with-charts-from-a-db
 
-
-    create_mat_plot(conf_mat,[conf_mat_column_mapping[x] for x in list(range(1,9))], 'Confusion matrix of protein secondary structure prediction', full_path+'confusion'+F"{domain}_{setting}",'True Label','Predicted Label' ,filetype='png', annot=False, cmap='YlGnBu' )
+    cmap = sns.cubehelix_palette(light=1, as_cmap=True)
+    create_mat_plot(conf_mat,[conf_mat_column_mapping[x] for x in list(range(1,9))], 'Confusion matrix of protein secondary structure prediction', full_path+'confusion'+F"{domain}_{setting}",'Predicted Label', 'True Label' ,filetype='png', annot=False, cmap=cmap )
 
 
     pdf = MyFPDF()
@@ -198,13 +201,37 @@ def generate_report(full_path, pred_test, domain, setting):
     <tr><td><b>Truely classified</b></td><td>{correct_edge}</td><td>{correct_NOTedge}</td></tr>
     </tbody>
     </table>
-    
+    <br/>
     <b>P-value for Chi-square test</b> = {chi2_res_pval}
     <br/>
     <b>P-value for G-test</b> = {gtest_res_pval}
     
     """
     pdf.write_html(html)
+
+    # learning curve
+    history_dict=FileUtility.load_obj(full_path+'history.pickle')
+    plt.clf()
+    loss_values = history_dict['loss']
+    val_loss_values = history_dict['val_loss']
+    epochs = range(1, len(loss_values) + 1)
+    matplotlib.rcParams['mathtext.fontset'] = 'stix'
+    matplotlib.rcParams['font.family'] = 'STIXGeneral'
+    matplotlib.rcParams['mathtext.fontset'] = 'custom'
+    matplotlib.rcParams['mathtext.rm'] = 'Bitstream Vera Sans'
+    matplotlib.rcParams['mathtext.it'] = 'Bitstream Vera Sans:italic'
+    matplotlib.rcParams['mathtext.bf'] = 'Bitstream Vera Sans:bold'
+    matplotlib.rcParams["axes.edgecolor"] = "black"
+    matplotlib.rcParams["axes.linewidth"] = 0.6
+    plt.plot(epochs, loss_values, 'ro', label='Loss for train set')
+    plt.plot(epochs, val_loss_values, 'b', label='Loss for test set')
+    plt.xlabel('Epochs')
+    plt.ylabel('Loss')
+    plt.legend(loc=1, prop={'size': 8},ncol=1, edgecolor='black', facecolor='white', frameon=True)
+    plt.title('Loss with respect to the number of epochs for train and test sets')
+    plt.savefig(full_path + 'learning_curve'+F"{domain}_{setting}"+'.png', dpi=300)
+    pdf.image(full_path + 'learning_curve'+F"{domain}_{setting}"+'.png', x = 50, y = None, w = 100, h = 0, type = '', link = '')
+
 
     pdf.output(full_path+'final_report.pdf', 'F')
 
