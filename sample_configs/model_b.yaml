@@ -16,10 +16,10 @@ model_paramters:
   lstm_size: 1000
   use_CRF: false
 run_parameters:
-  domain_name: baseline
+  domain_name: cnn_bilstm_highway
   epochs: 100
   gpu: 1
-  patience: 10
-  setting_name: baseline
+  patience: 5
+  setting_name: pssm_onhot
   test_batch_size: 100
   train_batch_size: 64

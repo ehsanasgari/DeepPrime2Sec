@@ -206,6 +206,8 @@ def generate_report(full_path, pred_test, domain, setting):
     <br/>
     <b>P-value for G-test</b> = {gtest_res_pval}
     
+    
+    <h4>Learning curve</h4>
     """
     pdf.write_html(html)
 

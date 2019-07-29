@@ -15,10 +15,10 @@ model_paramters:
   lr: 0.001
   lstm_size: 1000
 run_parameters:
-  domain_name: baseline
-  epochs: 1
+  domain_name: cnnbilstm
+  epochs: 100
   gpu: 1
-  patience: 1
-  setting_name: baseline
+  patience: 5
+  setting_name: pssm_onehot
   test_batch_size: 100
   train_batch_size: 64

@@ -13,13 +13,13 @@ model_paramters:
   - onehot
   - pssm
   filter_size: 256
-  lr: 0.001
+  lr: 0.0005
   lstm_size: 1000
 run_parameters:
-  domain_name: baseline
+  domain_name: cnn_bilstm_crf
   epochs: 100
   gpu: 1
   patience: 10
-  setting_name: baseline
+  setting_name: pssm_onehot
   test_batch_size: 100
   train_batch_size: 64
