@@ -13,6 +13,7 @@ develop-eggs/
 .idea/
 dist/
 datasets/*train*
+results/*
 downloads/
 eggs/
 .eggs/
