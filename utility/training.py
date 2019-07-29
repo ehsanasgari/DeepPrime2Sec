@@ -90,13 +90,14 @@ def training_loop(**kwargs):
                             validation_steps=validation_steps,
                             shuffle=False, epochs=epochs, verbose=1, callbacks=callbacks_list)
 
+    # save the history
+    FileUtility.save_obj(full_path + 'history', h.history)
+
+
     # Analysis of the performance
     pred_test = [(model.predict_on_batch(x),y,w) for x,y,w in tqdm.tqdm(validation_batches_fortest_408(1))]
 
     acc_test, conf_mat, conf_mat_column_mapping, contingency_metric, chi2_res_pval, gtest_res_pval = generate_report(full_path, pred_test, run_parameters['domain_name'], run_parameters['setting_name'])
-
-    # save the history
-    FileUtility.save_obj(full_path + 'history', h.history)
 
 
 
