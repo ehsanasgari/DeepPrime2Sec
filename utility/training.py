@@ -25,7 +25,7 @@ class MyFPDF(FPDF, HTMLMixin):
 # predefined models
 from models.a_cnn_bilstm import model_a_cnn_bilstm
 from models.b_cnn_bilstm_highway import model_b_cnn_bilstm_highway
-from models.c_cnn_bilstm_crf import model_c_cnn_bilstm
+from models.c_cnn_bilstm_crf import model_c_cnn_bilstm_crf
 from models.d_cnn_bilstm_attention import model_d_cnn_bilstm_attention
 from models.e_cnn import model_e_cnn
 from models.f_multiscale_cnn import model_f_multiscale_cnn
